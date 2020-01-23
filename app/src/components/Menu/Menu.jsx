@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,9 +18,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import { Projects } from '../../utils/Projects';
+// import axios from 'axios';
+
+// create mini drawer to open and close menu items
+// define max drawer width of the component
 const drawerWidth = 240;
 
+// create style classes for drawer
 const useStyles = makeStyles(theme => ({
+
+  // using flexbox 
   root: {
     display: 'flex',
   },
@@ -81,17 +89,47 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// mini drawer component containing menu item logic
 export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const topDrawer = ['Projects']; // default
+  const bottomDrawer = ['All', 'Upload']; // render components later
 
+  // default drawer state to be closed
+  const [open, setOpen] = React.useState(false);
+  const [projects, setProjects] = React.useState(topDrawer);
+  const [images, setImages] = React.useState(bottomDrawer);
+
+  console.log(open, projects, images)
+  // drawer metbods
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  // projects
+  const getAllProjects = () => {
+    Projects.getAll()
+    .then(res => console.log(res))
+    .catch(err => console.log(err.response));
+
+    // Projects.upload()
+    // .then(res => console.log(res))
+    // .catch(err => console.log(err.response));
+
+    Projects.update();
+
+    // Projects.delete("5e293b34a93ff02e094e393d")
+    // .then(res => console.log(res))
+    // .catch(err => console.log(err.response));
+
+    Projects.callBackend()
+    .then(res => console.log(res))
+    .catch(err => { console.log(err.response) });
   };
 
   return (
@@ -116,6 +154,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
+            {/* replace with username  */}
             Vincent Nguyen
           </Typography>
         </Toolbar>
@@ -140,7 +179,7 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {topDrawer.map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -149,8 +188,8 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
+          {bottomDrawer.map((text, index) => (
+            <ListItem button key={text} onClick={getAllProjects}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -160,11 +199,7 @@ export default function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-            some text here
-        </Typography>
-        <hr/>
-        <Typography paragraph>
-            some text here again 2
+            Render out some cards to be projects
         </Typography>
       </main>
     </div>
