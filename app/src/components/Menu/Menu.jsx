@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,83 +20,16 @@ import MailIcon from '@material-ui/icons/Mail';
 
 import { Projects } from '../../utils/Projects';
 import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
-
+import Sky from 'react-sky';
+import { useStyles } from './MenuStyle';
 // import axios from 'axios';
-
-// create mini drawer to open and close menu items
-// define max drawer width of the component
-const drawerWidth = 240;
-
-// create style classes for drawer
-const useStyles = makeStyles(theme => ({
-
-  // using flexbox 
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
 
 // mini drawer component containing menu item logic
 export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const topDrawer = ['Projects']; // default
-  const bottomDrawer = ['All', 'Upload']; // render components later
+  const bottomDrawer = ['All', 'Upload', 'Update', 'Delete', 'Holla']; // render components later
 
   // default drawer state to be closed
   const [open, setOpen] = React.useState(false);
@@ -104,6 +37,8 @@ export default function MiniDrawer() {
   const [images, setImages] = React.useState(bottomDrawer);
 
   console.log(open, projects, images);
+
+  const welcomeHeader = 'Vincent Nguyen';
 
   // drawer metbods
   const handleDrawerOpen = () => {
@@ -114,29 +49,74 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  // projects
-  const getAllProjects = () => {
-    
-    // Projects.getAll()
-    // .then(res => console.log(res.data))
-    // .catch(err => console.log(err.response));
+const menuClickHandler = event => {
+  event.preventDefault();
 
-    // Projects.upload()
-    // .then(res => console.log(res.data))
-    // .catch(err => console.log(err.response));
+    // projects event handlers
+    const buttonName = event.currentTarget.dataset.title;
+    const buttonIndex = event.currentTarget.dataset.index;
 
-    // axios.put(url[, data[, config]])
-    // Projects.update("")
-    // .then(res => console.log(res.data))
-    // .catch(err => console.log(err.response));
 
-    // Projects.delete("5e2a516ff1cd652804ae481a")
-    // .then(res => console.log(res))
-    // .catch(err => console.log(err.response));
+    const title = buttonName ? buttonName : 'N/A';
+    const desc = event.currentTarget.dataset.desc ? event.currentTarget.dataset.desc : 'N/A';
+    const link = event.currentTarget.dataset.link ? event.currentTarget.dataset.link : 'N/A';
+    const id = event.currentTarget.dataset.id;
 
-    // Projects.callBackend()
-    // .then(res => console.log(res))
-    // .catch(err => { console.log(err.response) });
+    console.log(buttonName);
+    console.log(buttonIndex);
+    console.log(title);
+    console.log(desc);
+    console.log(link);
+    console.log(id);
+
+    if (buttonName === 'All') return getProjects();
+    if (buttonName === 'Upload') return uploadProject(title, desc, link);
+    if (buttonName === 'Update') return updateProject(id, title, desc, link);
+    if (buttonName === 'Delete') return deleteProject(id);
+    return null;
+}
+
+  const getProjects = () => {
+    console.log('get all projects');
+
+    Projects.getAll()
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err.response));
+  };
+
+  const uploadProject = (title, desc, link) => {
+    console.log('upload project');
+
+    Projects.upload()
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err.response));
+  };
+
+  const updateProject = (id, title, desc, link) => {
+    console.log('update project');
+
+    // refactor to axios.put(url[, data[, config]])
+    Projects.update("5e2a516ff1cd652804ae481a")
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err.response));
+
+  };
+
+  const deleteProject = id => {
+    console.log('delete project');
+
+    Projects.delete("5e2a516ff1cd652804ae481a")
+    .then(res => console.log(res))
+    .catch(err => console.log(err.response));
+  };
+
+  const hollaBack = () => {
+    console.log('holla project');
+
+    Projects.callBackend()
+    .then(res => console.log(res))
+    .catch(err => { console.log(err.response) });
+
   };
 
   return (
@@ -162,7 +142,7 @@ export default function MiniDrawer() {
           </IconButton>
           <Typography variant="h6" noWrap>
             {/* replace with username  */}
-            Vincent Nguyen
+            Welcome, {welcomeHeader}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -196,7 +176,12 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {bottomDrawer.map((text, index) => (
-            <ListItem button key={text} onClick={getAllProjects}>
+            <ListItem 
+            button key={text} 
+            data-title={text}
+            data-index={index}
+            onClick={menuClickHandler}
+            >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
