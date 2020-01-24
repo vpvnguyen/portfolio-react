@@ -96,7 +96,7 @@ const menuClickHandler = event => {
     console.log('update project');
 
     // refactor to axios.put(url[, data[, config]])
-    Projects.update("5e2a516ff1cd652804ae481a")
+    Projects.update("")
     .then(res => console.log(res.data))
     .catch(err => console.log(err.response));
 
@@ -105,7 +105,7 @@ const menuClickHandler = event => {
   const deleteProject = id => {
     console.log('delete project');
 
-    Projects.delete("5e2a516ff1cd652804ae481a")
+    Projects.delete("")
     .then(res => console.log(res))
     .catch(err => console.log(err.response));
   };
