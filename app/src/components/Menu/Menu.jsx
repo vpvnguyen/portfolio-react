@@ -19,6 +19,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
 import { Projects } from '../../utils/Projects';
+import { FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
+
 // import axios from 'axios';
 
 // create mini drawer to open and close menu items
@@ -101,7 +103,8 @@ export default function MiniDrawer() {
   const [projects, setProjects] = React.useState(topDrawer);
   const [images, setImages] = React.useState(bottomDrawer);
 
-  console.log(open, projects, images)
+  console.log(open, projects, images);
+
   // drawer metbods
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -113,23 +116,27 @@ export default function MiniDrawer() {
 
   // projects
   const getAllProjects = () => {
-    Projects.getAll()
-    .then(res => console.log(res))
-    .catch(err => console.log(err.response));
+    
+    // Projects.getAll()
+    // .then(res => console.log(res.data))
+    // .catch(err => console.log(err.response));
 
     // Projects.upload()
+    // .then(res => console.log(res.data))
+    // .catch(err => console.log(err.response));
+
+    // axios.put(url[, data[, config]])
+    // Projects.update("")
+    // .then(res => console.log(res.data))
+    // .catch(err => console.log(err.response));
+
+    // Projects.delete("5e2a516ff1cd652804ae481a")
     // .then(res => console.log(res))
     // .catch(err => console.log(err.response));
 
-    Projects.update();
-
-    // Projects.delete("5e293b34a93ff02e094e393d")
+    // Projects.callBackend()
     // .then(res => console.log(res))
-    // .catch(err => console.log(err.response));
-
-    Projects.callBackend()
-    .then(res => console.log(res))
-    .catch(err => { console.log(err.response) });
+    // .catch(err => { console.log(err.response) });
   };
 
   return (
@@ -199,8 +206,13 @@ export default function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-            Render out some cards to be projects
+            Menu - Signin
         </Typography>
+        <FormControl>
+  <InputLabel htmlFor="my-input">Email address</InputLabel>
+  <Input id="my-input" aria-describedby="my-helper-text" />
+  <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
+</FormControl>
       </main>
     </div>
   );
