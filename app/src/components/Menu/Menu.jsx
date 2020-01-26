@@ -24,6 +24,8 @@ import Sky from 'react-sky';
 import { useStyles } from './MenuStyle';
 // import axios from 'axios';
 
+import Login from '../Login/Login';
+
 // mini drawer component containing menu item logic
 export default function MiniDrawer() {
   const classes = useStyles();
@@ -38,7 +40,7 @@ export default function MiniDrawer() {
 
   console.log(open, projects, images);
 
-  const welcomeHeader = 'Vincent Nguyen';
+  const welcomeHeader = null;
 
   // drawer metbods
   const handleDrawerOpen = () => {
@@ -142,7 +144,7 @@ const menuClickHandler = event => {
           </IconButton>
           <Typography variant="h6" noWrap>
             {/* replace with username  */}
-            Welcome, {welcomeHeader}
+            Welcome, {welcomeHeader ? welcomeHeader : 'Sign in plz'}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -190,14 +192,9 @@ const menuClickHandler = event => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
-            Menu - Signin
-        </Typography>
-        <FormControl>
-  <InputLabel htmlFor="my-input">Email address</InputLabel>
-  <Input id="my-input" aria-describedby="my-helper-text" />
-  <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
-</FormControl>
+            {/* import login form */}
+            <Login />
+
       </main>
     </div>
   );
